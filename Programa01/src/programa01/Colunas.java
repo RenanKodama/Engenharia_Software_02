@@ -1,5 +1,5 @@
 /*
-    Universidade Federal do Paraná
+    Universidade Tecnológica Federal do Paraná - CM
     Autor: Renan Kodama 
     Disciplina: Engenharia de Software02
     Data: 12/09/2019
@@ -47,8 +47,4 @@ public class Colunas {
     public void setMedia(float media) {
         this.media = media;
     }
-    
-    
-    
-    
 }

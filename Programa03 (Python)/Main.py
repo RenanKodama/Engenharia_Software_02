@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-''' Universidade Federal do Parana - CM
+''' Universidade Tecnológica Federal do Paraná - CM
     Engenharia de Software 02
     Renan Kodama Rodrigues 1602098
 '''
