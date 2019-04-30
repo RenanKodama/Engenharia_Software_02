@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-''' Universidade Federal do Parana - CM
+''' Universidade Tecnológica Federal do Paraná - CM
     Engenharia de Software 02
     Renan Kodama Rodrigues 1602098
 '''
 
-from ClassCalcs import Calc
+from Calc_Simpson import Simpson
 import collections
+import sys
 
 
 def ler_Arquivo(nomeArquivo):
@@ -31,8 +32,8 @@ def carregar_dados(dadosArquivo):
 
         else:
             count_colunas = 0
-            
             for palavras in linha.split(", "):
+
                 hashMap[first_line.split(", ")[count_colunas]].append(
                             palavras.replace("\n", ""))
                 count_colunas += 1
@@ -41,12 +42,10 @@ def carregar_dados(dadosArquivo):
 
 
 def main():
-    print("Entre com o Arquivo CSV com Dilimitador [,]")
-    arquivo = str(input("Arquivo :> ")).strip()
-    dados = ler_Arquivo(arquivo)
-    hashMap = carregar_dados(dados)
-    Calc(hashMap).inicializar()
-
+    # file_Name = str(input("Type the name of file: "))
+    # hasMap = carregar_dados(ler_Arquivo(file_Name))
+    simp = Simpson(0, 5, 0.00001, 9)
+    simp.calc()
 
 if __name__ == "__main__":
     main()
