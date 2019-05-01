@@ -7,6 +7,7 @@
 
 import math
 
+
 class Simpson:
     def __init__(self, x_init, x_final, eRR, dof, num_seg):
         self.x_init = x_init
@@ -24,7 +25,7 @@ class Simpson:
             self.num_seg *= 2
             old_val = new_val
             new_val = self.func_Simpson()
-        
+
         return new_val
 
     def func_Gamma(self, value):
@@ -34,18 +35,22 @@ class Simpson:
             else:
                 return((value - 1) * self.func_Gamma((value - 1)))
         else:
-            return self.func_GammaInt(value -1)
+            return self.func_GammaInt(value - 1)
 
     def func_GammaInt(self, value):
-        if value ==  1:
+        if value == 1:
             return value
         else:
             return (value * self.func_GammaInt(value - 1))
 
     def func_fX(self, value):
         f_x_part1 = self.func_Gamma((self.dof + 1.0) / 2)
-        f_x_part2 = ((self.dof * math.pi) ** 0.5) * self.func_Gamma(self.dof / 2.0)
-        f_x_part3 = ((1.0 + ((value ** 2.0) / self.dof)) ** -((self.dof + 1.0) / 2.0)) 
+        f_x_part2 = (
+            ((self.dof * math.pi) ** 0.5) * self.func_Gamma(self.dof / 2.0)
+            )
+        f_x_part3 = (
+            ((1.0 + ((value ** 2.0) / self.dof)) ** -((self.dof + 1.0) / 2.0))
+            )
         f_x_result = (f_x_part1 / f_x_part2) * f_x_part3
 
         return f_x_result
@@ -63,6 +68,9 @@ class Simpson:
         for i in range(2, self.num_seg - 2, 2):
             var_P_part3 += (2.0 * self.func_fX(i * var_W))
 
-        var_P_result = (var_W / 3) * (var_P_part1 + var_P_part2 + var_P_part3 + var_P_part4)
+        var_P_result = (
+            (var_W / 3) *
+            (var_P_part1 + var_P_part2 + var_P_part3 + var_P_part4)
+            )
 
         return var_P_result
