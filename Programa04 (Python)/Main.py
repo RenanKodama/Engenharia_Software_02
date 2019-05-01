@@ -31,8 +31,8 @@ def carregar_dados(dadosArquivo):
 
         else:
             count_colunas = 0
+            
             for palavras in linha.split(", "):
-
                 hashMap[first_line.split(", ")[count_colunas]].append(
                             palavras.replace("\n", ""))
                 count_colunas += 1
