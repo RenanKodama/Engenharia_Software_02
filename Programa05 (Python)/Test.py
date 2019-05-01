@@ -9,7 +9,7 @@
 from Calc_Simpson import Simpson
 import math
 
-
+# Debug for func_Sipson()
 def test_Simpson():
     result1 = Simpson(0, 1.1, 0.00001, 9, 100).calc()
     result2 = Simpson(0, 1.1812, 0.00001, 10, 100).calc()
