@@ -25,23 +25,43 @@ def carregar_dados(dadosArquivo):
     for line in dadosArquivo:
         count_lines += 1
 
-        if count_lines != 1:
-            values = line.split(", ")
-            x_init = float(values[0].split(" to x= ")[0])
-            x_final = float(values[0].split(" to x= ")[1])
-            dof = float(values[1])
-            expec_result = float(values[2])
-            result = Simpson(x_init, x_final, eRR, dof, segments).calc()
-            compare_Results(expec_result, result, count_lines)
+        if(len(line.split(", ")) == 3):
+            if count_lines != 1:
+                values = line.split(", ")
 
+                if(len(values[0].split(" to x= ")) == 2):
+                    x_init = float(values[0].split(" to x= ")[0])
+                    x_final = float(values[0].split(" to x= ")[1])
+                    dof = float(values[1])
+                    expec_result = float(values[2])
+                    result = Simpson(x_init, x_final, eRR, dof, segments).calc()
+                    compare_Results(expec_result, result, count_lines)
+                else:
+                    print(
+                        "Erro de formato, era esperado 2 paramentres, " +
+                        "PARAM1 to x= PARAM2 " +
+                        "Encontrado {} ".format(len(values[0].split(" to x= "))) + 
+                        "na linha {}".format(count_lines)
+                        )
+        else:
+            print(
+                "Erro de formato, era esperado 3 paramentres," +
+                "encontrado {} ".format(len(line.split(", ")))+
+                "na linha {}".format(count_lines)
+            )
 
 def compare_Results(res1, res2, c_line):
-    if math.isclose(res1, res2, rel_tol = 0.01):
+    if math.isclose(res1, res2, rel_tol=0.01):
         print(
-            "Respostas Conferem {} e {} na linha {} com 0.01 de tolerância".format(res1, res2, c_line)
+            "Respostas Conferem {} e {} ".format(res1, res2) +
+            "na linha {} com 0.01 de tolerância".format(c_line)
             )
     else:
-        print("Erro, valores {} e {} não conferem na linha {}".format(res1, res2, c_line))
+        print(
+            "Erro, valores {} e {} não conferem na linha {}".format(
+                res1, res2, c_line
+                )
+            )
 
 
 def main():
