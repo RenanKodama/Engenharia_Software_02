@@ -6,8 +6,8 @@
 '''
 
 from Calc_Simpson import Simpson
-import collections
 import sys
+import math
 
 
 def ler_Arquivo(nomeArquivo):
@@ -18,34 +18,36 @@ def ler_Arquivo(nomeArquivo):
 
 
 def carregar_dados(dadosArquivo):
-    hashMap = collections.OrderedDict()
-    first_line = ""
-    count_linhas = 0
+    count_lines = 0
+    eRR = 0.00001
+    segments = 100
 
-    for linha in dadosArquivo:
-        count_linhas += 1
+    for line in dadosArquivo:
+        count_lines += 1
 
-        if count_linhas == 1:
-            first_line = linha.replace("\n", "")
-            for palavras in linha.split(", "):
-                hashMap[palavras.replace("\n", "")] = []
+        if count_lines != 1:
+            values = line.split(", ")
+            x_init = float(values[0].split(" to x= ")[0])
+            x_final = float(values[0].split(" to x= ")[1])
+            dof = float(values[1])
+            expec_result = float(values[2])
+            result = Simpson(x_init, x_final, eRR, dof, segments).calc()
+            compare_Results(expec_result, result, count_lines)
 
-        else:
-            count_colunas = 0
-            for palavras in linha.split(", "):
 
-                hashMap[first_line.split(", ")[count_colunas]].append(
-                            palavras.replace("\n", ""))
-                count_colunas += 1
-
-    return hashMap
+def compare_Results(res1, res2, c_line):
+    if math.isclose(res1, res2, rel_tol = 0.01):
+        print(
+            "Respostas Conferem {} e {} na linha {} com 0.01 de tolerância".format(res1, res2, c_line)
+            )
+    else:
+        print("Erro, valores {} e {} não conferem na linha {}".format(res1, res2, c_line))
 
 
 def main():
-    # file_Name = str(input("Type the name of file: "))
-    # hasMap = carregar_dados(ler_Arquivo(file_Name))
-    simp = Simpson(0, 5, 0.00001, 9)
-    simp.calc()
+    file_Name = str(input("Name of file: "))
+    carregar_dados(ler_Arquivo(file_Name))
+
 
 if __name__ == "__main__":
     main()

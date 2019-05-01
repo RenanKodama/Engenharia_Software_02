@@ -8,21 +8,28 @@
 import math
 
 class Simpson:
-    def __init__(self, x_init, x_final, eRR, dof, numSeg):
+    def __init__(self, x_init, x_final, eRR, dof, num_seg):
         self.x_init = x_init
         self.x = x_final
         self.eRR = eRR
         self.dof = dof
-        self.numSeg = numSeg
-        self.w = self.x / self.numSeg
+        self.num_seg = num_seg
 
     def calc(self):
-        # print(self.func_Gamma(9.0))
-        self.func_fX(9)
+        old_val = self.func_Simpson()
+        self.num_seg *= 2
+        new_val = self.func_Simpson()
+
+        while((old_val - new_val) > self.eRR):
+            self.num_seg *= 2
+            old_val = new_val
+            new_val = self.func_Simpson()
+        
+        return new_val
 
     def func_Gamma(self, value):
-        if not value.is_integer():
-            if math.isclose(value, (1/2)):
+        if not float(value).is_integer():
+            if math.isclose(value, (1 / 2)):
                 return ((math.pi ** 0.5))
             else:
                 return((value - 1) * self.func_Gamma((value - 1)))
@@ -36,14 +43,26 @@ class Simpson:
             return (value * self.func_GammaInt(value - 1))
 
     def func_fX(self, value):
-        f_x_part1 = self.func_Gamma((self.dof + 1) / 2)
-        f_x_part2 = ((self.dof * math.pi) ** 0.5) * self.func_Gamma(self.dof / 2)
-        f_x_part3 = ((1+((value ** 2) / self.dof)) ** ((self.dof + 1) / 2)) 
+        f_x_part1 = self.func_Gamma((self.dof + 1.0) / 2)
+        f_x_part2 = ((self.dof * math.pi) ** 0.5) * self.func_Gamma(self.dof / 2.0)
+        f_x_part3 = ((1.0 + ((value ** 2.0) / self.dof)) ** -((self.dof + 1.0) / 2.0)) 
         f_x_result = (f_x_part1 / f_x_part2) * f_x_part3
-        
-        print(f_x_part1)
-        print(f_x_part2)
-        print((f_x_part1 / f_x_part2))
+
+        return f_x_result
 
     def func_Simpson(self):
-        aux = 1
+        var_W = self.x / self.num_seg
+        var_P_part1 = self.func_fX(0.0)
+        var_P_part2 = 0.0
+        var_P_part3 = 0.0
+        var_P_part4 = self.func_fX(self.x)
+
+        for i in range(1, self.num_seg - 1, 2):
+            var_P_part2 += (4.0 * self.func_fX(i * var_W))
+
+        for i in range(2, self.num_seg - 2, 2):
+            var_P_part3 += (2.0 * self.func_fX(i * var_W))
+
+        var_P_result = (var_W / 3) * (var_P_part1 + var_P_part2 + var_P_part3 + var_P_part4)
+
+        return var_P_result
