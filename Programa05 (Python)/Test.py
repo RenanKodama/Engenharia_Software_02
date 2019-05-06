@@ -5,9 +5,9 @@
     Renan Kodama Rodrigues 1602098
 '''
 
-
 from Calc_Simpson import Simpson
 import math
+
 
 # Debug for func_Sipson()
 def test_Simpson():
