@@ -38,7 +38,7 @@ def carregar_dados(dadosArquivo):
                     compare_Results(expec_result, result, count_lines)
                 else:
                     print(
-                        "Erro de formato, era esperado 2 paramentres, " +
+                        "Erro de formato, era esperado 2 paramentros, " +
                         "PARAM1 to x= PARAM2 " +
                         "Encontrado {} ".format(len(values[0].split(" to x= "))) + 
                         "na linha {}".format(count_lines)

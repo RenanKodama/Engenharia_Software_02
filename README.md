@@ -1,7 +1,7 @@
 # Universidade Federal do Paraná
 ### Engenharia de Software 02
 
-##### Descrição
+### Descrição
     Os programas desenvolvidos seguiram as especificações conforme apresentadas em cada projeto. Elas estão
     contidas dentro de seus respectivos diretórios. Em geral, foram implementadas diversas funcionalidades de
     caráter matemático. Foram inseridos casos de testes para a verificação correta das funções desenvolvidas,
