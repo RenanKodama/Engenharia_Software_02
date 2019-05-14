@@ -10,7 +10,7 @@ import time
 
 
 class Simpson:
-    def __init__(self, x, dof, p, eRR = 0.00001, num_seg = 100):
+    def __init__(self, x, dof, p, eRR = 0.00001, num_seg = 12):
         self.x = x
         self.eRR = eRR
         self.dof = dof
@@ -90,14 +90,14 @@ class Simpson:
 
             result = self.calc()
 
-            # print("Val_X: {}".format(self.x))
+            print("Val_X: {}".format(self.x))
 
             if (self.is_Positive(self.p - result) != positive):
                 positive = self.is_Positive(self.p - result)
                 self.d /= 2
 
         time_final = time.clock()
-        print("Time: ".format(time_final - time_init))
+        print("Total Time: {}".format(time_final - time_init))
         return self.x
 
     def is_Positive(self, number):
@@ -105,4 +105,3 @@ class Simpson:
             return True
         else:
             return False
-
