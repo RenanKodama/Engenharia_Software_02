@@ -23,7 +23,7 @@ def test_programa_Caso1():
         ]
     calculos = StoreCalc(caso1, 386)
     resultados = calculos.inicializar()
-
+    
     assert round(decimal.Decimal(-22.55), 2) == round(resultados.beta_0, 2)
     assert round(decimal.Decimal(1.7279), 4) == round(resultados.beta_1, 4)
     assert round(decimal.Decimal(0.9545), 4) == round(resultados.r_xy, 4)

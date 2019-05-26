@@ -6,15 +6,17 @@
 '''
 
 import math
+import time
 
 
-class Simpson:
-    def __init__(self, x_init, x_final, dof, eRR = 0.00001, num_seg = 12):
-        self.x_init = x_init
-        self.x = x_final
+class SimpsonInv:
+    def __init__(self, x, dof, p, eRR = 0.00001, num_seg = 6):
+        self.x = x
         self.eRR = eRR
         self.dof = dof
         self.num_seg = num_seg
+        self.p = p
+        self.d = 0.5
 
     def calc(self):
         old_val = self.func_Simpson()
@@ -74,3 +76,32 @@ class Simpson:
             )
 
         return var_P_result
+
+    def find_P(self):
+        time_init = time.process_time()
+        result = self.calc()
+        positive = self.is_Positive(self.p - result)
+
+        while(not math.isclose(self.p, result)):
+            if result < self.p:
+                self.x += self.d
+            else:
+                self.x -= self.d
+
+            result = self.calc()
+
+            print("Val_X: {}".format(self.x))
+
+            if (self.is_Positive(self.p - result) != positive):
+                positive = self.is_Positive(self.p - result)
+                self.d /= 2
+
+        time_final = time.process_time()
+        # print("Total Time: {}min".format((time_final - time_init)/60))
+        return [self.x, ((time_final - time_init)/60)]
+
+    def is_Positive(self, number):
+        if(number > 0):
+            return True
+        else:
+            return False

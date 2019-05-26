@@ -6,6 +6,7 @@
 '''
 
 import collections
+from Calc import Calculos
 
 # recycled
 def ler_Arquivo(nomeArquivo):
@@ -15,7 +16,7 @@ def ler_Arquivo(nomeArquivo):
     return dadosArquivo
 
 # recycled
-def carregar_dados(dadosArquivo):
+def carregar_Dados(dadosArquivo):
     hashMap = collections.OrderedDict()
     first_line = ""
     count_linhas = 0
@@ -40,8 +41,20 @@ def carregar_dados(dadosArquivo):
 
 
 def main():
-    file_name = str(input("Enter the file name: "))
-    data_Hash = carregar_dados(ler_Arquivo(file_name))
+    # file_name = str(input("Enter the file name: "))
+    file_name = "Input.csv"
+    data_Hash = carregar_Dados(ler_Arquivo(file_name))
+    col = ["Tamanho estimado do proxy", "Tamanho efetivo de adições e modificações"]
+
+    [coef_corr, coef_Quad, area_Tail, 
+    beta_0, beta_1, yk, rang, upi, lpi] = Calculos(data_Hash, col, 386).calcular()
+
+    print("Beta0: {}".format(beta_0))
+    print("Beta1: {}".format(beta_1))
+    print("YK: {}".format(yk))
+    print("Range: {}".format(rang))
+    print("UPI: {}".format(upi))
+    print("LPI: {}".format(lpi))
 
 
 if __name__ == "__main__":
