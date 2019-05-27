@@ -10,25 +10,33 @@ import time
 
 
 class SimpsonInv:
-    def __init__(self, x, dof, p, eRR = 0.00001, num_seg = 6):
+    def __init__(self, x, dof, p, eRR=0.00001, num_seg=6):
         self.x = x
         self.eRR = eRR
         self.dof = dof
         self.num_seg = num_seg
         self.p = p
         self.d = 0.5
+        self.perform = {}
 
     def calc(self):
         old_val = self.func_Simpson()
         self.num_seg *= 2
         new_val = self.func_Simpson()
 
-        while((old_val - new_val) > self.eRR):
-            self.num_seg *= 2
-            old_val = new_val
-            new_val = self.func_Simpson()
+        if new_val not in self.perform.keys():
+            key = new_val
+            self.perform[key] = 0.0
 
-        return new_val
+            while((old_val - new_val) > 0.00001):
+                self.num_seg *= 2
+                old_val = new_val
+                new_val = self.func_Simpson()
+                self.perform[key] = new_val
+            return new_val
+        else:
+            print("PERFORM -- "),
+            return self.perform[new_val]
 
     def func_Gamma(self, value):
         if not float(value).is_integer():
@@ -82,7 +90,7 @@ class SimpsonInv:
         result = self.calc()
         positive = self.is_Positive(self.p - result)
 
-        while(not math.isclose(self.p, result)):
+        while(not math.isclose(self.p, result, rel_tol=self.eRR)):
             if result < self.p:
                 self.x += self.d
             else:
@@ -97,7 +105,6 @@ class SimpsonInv:
                 self.d /= 2
 
         time_final = time.process_time()
-        # print("Total Time: {}min".format((time_final - time_init)/60))
         return [self.x, ((time_final - time_init)/60)]
 
     def is_Positive(self, number):

@@ -9,7 +9,7 @@ import math
 
 
 class Simpson:
-    def __init__(self, x_init, x_final, dof, eRR = 0.00001, num_seg = 100):
+    def __init__(self, x_init, x_final, dof, eRR=0.00001, num_seg=100):
         self.x_init = x_init
         self.x = x_final
         self.eRR = eRR

@@ -8,6 +8,7 @@
 from Simpson import Simpson
 from Simpson_Inv import SimpsonInv
 
+
 class Calculos:
     def __init__(self, data_Hash, coluns, xk):
         self.data_Hash = data_Hash
@@ -85,7 +86,7 @@ class Calculos:
         beta_0 = avg_y - (beta_1 * avg_x)
 
         return [beta_0, beta_1]
-    
+
     def encontrar_YK(self, beta_0, beta_1):
         return (beta_0 + (beta_1 * self.xk))
 
@@ -93,24 +94,30 @@ class Calculos:
         part1 = abs(val_corr) * ((self.size - 2) ** (0.5))
         part2 = (1 - (val_corr ** 2)) ** 0.5
         x = part1 / part2
-        p = Simpson(0, x, (self.size - 2), num_seg=self.seg).calc()
+        p = Simpson(
+            0, x, (self.size - 2), num_seg=self.seg
+            ).calc()
 
         area_Tail = 1 - (2 * p)
-        
+
         return [x, p, area_Tail]
 
     def intervalo_Previsao(self, x, beta_0, beta_1, avg_x, yk):
-        [x, total_time]= SimpsonInv(x, self.size, 0.35, eRR=0.0001, num_seg=4).find_P()
+        [x, total_time] = SimpsonInv(
+            x, self.size, 0.35, eRR=0.0001, num_seg=2
+            ).find_P()
         part1 = x * self.desvio_Padrao(beta_0, beta_1)
-        part2l0_frac = (self.xk - avg_x) ** 2 
+        part2l0_frac = (self.xk - avg_x) ** 2
         part2l1_frac = 0
 
-        for i in range (self.size):
-            part2l1_frac += (float(self.data_Hash[self.coluns[0]][i]) - avg_x) ** 2
+        for i in range(self.size):
+            part2l1_frac += (
+                float(self.data_Hash[self.coluns[0]][i]) - avg_x
+                ) ** 2
 
         part2 = (1 + (1 / self.size) + (part2l0_frac / part2l1_frac)) ** 0.5
-        
-        range_val =  part1 * part2
+
+        range_val = part1 * part2
 
         return [range_val, (yk + range_val), (yk - range_val), total_time]
 
@@ -129,25 +136,32 @@ class Calculos:
         file_out = open("Output.txt", "w")
 
         x_y = self.multiplica_XY()
-        [sum_x, sum_y] = self.somatorio_XY() 
+        [sum_x, sum_y] = self.somatorio_XY()
         [x_quad, y_quad] = self.quadrado_XY()
-        coef_corr = self.coeficiente_Correlacao(x_y, sum_x, sum_y, x_quad, y_quad)
+        coef_corr = self.coeficiente_Correlacao(
+            x_y, sum_x, sum_y, x_quad, y_quad
+            )
 
         [x, p, area_Tail] = self.significancia_Correlacao(coef_corr)
         [avg_x, avg_y] = self.media_XY(sum_x, sum_y)
         [beta_0, beta_1] = self.regressao_Linear(x_y, avg_x, avg_y, x_quad)
         yk = self.encontrar_YK(beta_0, beta_1)
 
-        [rang, upi, lpi, total_time] = self.intervalo_Previsao(x, beta_0, beta_1, avg_x, yk)
-        
-        file_out.write("Coef. Corr: {}".format(coef_corr))
-        file_out.write("Coef. Corr²: {}".format(coef_corr ** 2))
-        file_out.write("Area Tail: {}".format(area_Tail))
-        file_out.write("Beta 0: {}".format(beta_0))
-        file_out.write("Beta 1: {}".format(beta_1))
-        file_out.write("YK: {}".format(yk))
-        file_out.write("Range: {}".format(rang))
-        file_out.write("Beta 0: {}".format(beta_0))
-        file_out.write("Total Time: {} min".format(total_time))
+        [
+            rang, upi, lpi, total_time
+        ] = self.intervalo_Previsao(x, beta_0, beta_1, avg_x, yk)
 
-        return [coef_corr, coef_corr ** 2, area_Tail, beta_0, beta_1, yk, rang, upi, lpi]
+        file_out.write("Coef. Corr: {}\n".format(coef_corr))
+        file_out.write("Coef. Corr²: {}\n".format(coef_corr ** 2))
+        file_out.write("Area Tail: {}\n".format(area_Tail))
+        file_out.write("Beta 0: {}\n".format(beta_0))
+        file_out.write("Beta 1: {}\n".format(beta_1))
+        file_out.write("YK: {}\n".format(yk))
+        file_out.write("Range: {}\n".format(rang))
+        file_out.write("Beta 0: {}\n".format(beta_0))
+        file_out.write("Total Time: {} min\n".format(total_time))
+
+        return [
+            coef_corr, coef_corr ** 2, area_Tail,
+            beta_0, beta_1, yk, rang, upi, lpi, total_time
+            ]
