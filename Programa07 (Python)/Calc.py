@@ -10,15 +10,27 @@ from Simpson_Inv import SimpsonInv
 
 
 class Calculos:
-    def __init__(self, data_Hash, coluns, xk):
+    def __init__(self, data_Hash, coluns, xk, seg=2):
         self.data_Hash = data_Hash
         self.coluns = coluns
-        self.size = len(self.data_Hash[self.coluns[0]])
+        self.size = 0
         self.xk = xk
-        self.seg = 1000
+        self.seg = seg
 
     # recycled and changed
     def somatorio_XY(self):
+        ''' Cáculo para o somatório dos valores contidos
+            nos dados das tabelas para as colunas X e Y
+            selecionadas.
+
+            Parâmetros:
+                null
+
+            Return--
+                Soma dos valores para as colunas X e Y
+                retorno (Float)
+        '''
+        
         sum_x = 0
         sum_y = 0
 
@@ -32,6 +44,12 @@ class Calculos:
 
     # recycled and changed
     def multiplica_XY(self):
+        ''' Cáculo para a soma dos produtos dos valores contidos na
+                na data_Hash para as colunas X e Y.
+
+            Return--
+                Soma dos valores para as colunas X e Y(Float)
+        '''
         v1 = []
         v2 = []
         x_y = 0
@@ -104,7 +122,7 @@ class Calculos:
 
     def intervalo_Previsao(self, x, beta_0, beta_1, avg_x, yk):
         [x, total_time] = SimpsonInv(
-            x, self.size, 0.35, eRR=0.0001, num_seg=2
+            x, self.size, 0.35, eRR=0.001, num_seg=2
             ).find_P()
         part1 = x * self.desvio_Padrao(beta_0, beta_1)
         part2l0_frac = (self.xk - avg_x) ** 2
@@ -132,7 +150,25 @@ class Calculos:
 
         return ((part1 * part2) ** 0.5)
 
+    def check_Data(self):
+        for col in self.coluns:
+            if col not in self.data_Hash.keys():
+                raise ValueError("Coluna {} não encontrada!".format(col))
+
+        count_itens = []
+        for key in self.data_Hash.keys():
+            count_itens.append(self.data_Hash[key].count())
+
+        if not all(size_col == self.data_Hash.shape[0] for size_col in count_itens):
+            raise ValueError("Tamanhos das colunas diferem!")
+
+        self.size = len(self.data_Hash[self.coluns[0]])
+
+        if (self.seg % 2) != 0:
+            raise ValueError("Número de segmentos deve ser par obteve: {}!".format(self.seg))
+
     def calcular(self):
+        self.check_Data()
         file_out = open("Output.txt", "w")
 
         x_y = self.multiplica_XY()

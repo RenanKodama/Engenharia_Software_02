@@ -5,47 +5,20 @@
     Renan Kodama Rodrigues 1602098
 '''
 
+import pandas as pd
 import collections
 from Calc import Calculos
 
 
 # recycled
 def ler_Arquivo(nomeArquivo):
-    with open(nomeArquivo) as arquivo:
-        dadosArquivo = arquivo.readlines()
-        arquivo.close()
-        return dadosArquivo
-
-
-# recycled
-def carregar_Dados(dadosArquivo):
-    hashMap = collections.OrderedDict()
-    first_line = ""
-    count_linhas = 0
-
-    for linha in dadosArquivo:
-        count_linhas += 1
-
-        if count_linhas == 1:
-            first_line = linha.replace("\n", "")
-            for palavras in linha.split(", "):
-                hashMap[palavras.replace("\n", "")] = []
-
-        else:
-            count_colunas = 0
-
-            for palavras in linha.split(", "):
-                hashMap[first_line.split(", ")[count_colunas]].append(
-                            palavras.replace("\n", ""))
-                count_colunas += 1
-
-    return hashMap
+    return pd.read_csv(nomeArquivo, sep=',')
 
 
 def main():
     # file_name = str(input("Enter the file name: "))
     file_name = "Input.csv"
-    data_Hash = carregar_Dados(ler_Arquivo(file_name))
+    data_Hash = (ler_Arquivo(file_name))
     col = [
         "Tamanho estimado do proxy",
         "Tamanho efetivo de adições e modificações"
