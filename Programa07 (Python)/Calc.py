@@ -52,7 +52,7 @@ class Calculos:
             Retorno:
                 Retorna lista do tipo float de tamanho = 2.
                     list[0] = Soma dos valores em X.
-                    list[1] = Soma dos valores em Y .
+                    list[1] = Soma dos valores em Y.
         '''
         sum_x = 0
         sum_y = 0
@@ -371,16 +371,22 @@ class Calculos:
                             que ou igual à zero ou o número de segmentos
                             é impar.
 
+                    Duas colunas devem ser selecionadas!
+                        Causa: Número de colunas inseridas é diferente de 2.
+
             Retorno:
                 null.
         '''
         for col in self.coluns:
             if col not in self.data_Hash.keys():
-                raise ValueError("Coluna {} não encontrada!".format(col))
+                raise ValueError("Coluna '{}' não encontrada!".format(col))
 
         count_itens = []
         for key in self.data_Hash.keys():
             count_itens.append(self.data_Hash[key].count())
+
+        if len(self.coluns != 2):
+            raise ValueError("Duas colunas devem ser selecionadas!")
 
         if not all(
             size_col == self.data_Hash.shape[0] for size_col in count_itens):
@@ -389,7 +395,7 @@ class Calculos:
         self.size = len(self.data_Hash[self.coluns[0]])
         if ((self.seg % 2) != 0) or (self.seg <= 0):
             raise ValueError(
-                "Número de segmentos deve ser par e > 0 obteve: {}!".format(
+                "Número de segmentos deve ser par e > 0 obteve: '{}'!".format(
                     self.seg))
 
     def calcular(self):
@@ -443,6 +449,8 @@ class Calculos:
         file_out.write("Range: {}\n".format(rang))
         file_out.write("Beta 0: {}\n".format(beta_0))
         file_out.write("Total Time: {} min\n".format(total_time))
+
+        print("Resultados exportados para ./Output.csv")
 
         return [
             coef_corr, coef_corr ** 2, area_Tail,

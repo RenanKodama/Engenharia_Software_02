@@ -40,9 +40,11 @@ def caso2(data_Hash, coluns, xk, err = 0.01):
     assert math.isclose(88.41565276, upi)
     assert math.isclose(33.3003578, lpi)
 
+
 def caso3_4(data_Hash, coluns, xk, err = 0.01):
     [coef_Corr, coef_Corr_Quad, area_Tail, 
     beta_0, beta_1, yk, rang, upi, lpi] = Calculos(data_Hash, coluns, xk).calcular()
+
 
 def main():
     input_Data = "Input.csv"
