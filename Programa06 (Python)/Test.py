@@ -10,7 +10,7 @@ from Calc_Simpson_Invertido import Simpson
 import math
 
 
-def teste_Caso1():
+def test_Caso1():
     p = 0.20
     dof = 6.0
     x = 0.55338
@@ -21,7 +21,7 @@ def teste_Caso1():
     assert math.isclose(x, resultado, rel_tol = err)
 
 
-def teste_Caso2():
+def test_Caso2():
     p = 0.45
     dof = 15
     x = 1.75305
@@ -32,7 +32,7 @@ def teste_Caso2():
     assert math.isclose(x, resultado, rel_tol = err)
 
 
-def teste_Caso3():
+def test_Caso3():
     p = 0.495
     dof = 4
     x = 4.60409

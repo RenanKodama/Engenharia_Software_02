@@ -8,12 +8,10 @@
 from Calc import Calculos
 import math
 from Main import ler_Arquivo as read_file
-from Main import carregar_Dados
 
-
-def caso1(data_Hash, coluns, xk, err = 0.01):
+def test_caso1(data_Hash, coluns, xk, err = 0.01):
     [coef_Corr, coef_Corr_Quad, area_Tail, 
-    beta_0, beta_1, yk, rang, upi, lpi] = Calculos(data_Hash, coluns, xk).calcular()
+    beta_0, beta_1, yk, rang, upi, lpi, t] = Calculos(data_Hash, coluns, xk).calcular()
 
     assert math.isclose(0.954496574, coef_Corr)
     assert math.isclose(0.91106371, coef_Corr_Quad)
@@ -26,9 +24,9 @@ def caso1(data_Hash, coluns, xk, err = 0.01):
     assert math.isclose(414.427664, lpi)
 
 
-def caso2(data_Hash, coluns, xk, err = 0.01):
+def test_caso2(data_Hash, coluns, xk, err = 0.01):
     [coef_Corr, coef_Corr_Quad, area_Tail, 
-    beta_0, beta_1, yk, rang, upi, lpi] = Calculos(data_Hash, coluns, xk).calcular()
+    beta_0, beta_1, yk, rang, upi, lpi, t] = Calculos(data_Hash, coluns, xk).calcular()
 
     assert math.isclose(0.933306898, coef_Corr)
     assert math.isclose(0,871061766, coef_Corr_Quad)
@@ -41,23 +39,20 @@ def caso2(data_Hash, coluns, xk, err = 0.01):
     assert math.isclose(33.3003578, lpi)
 
 
-def caso3_4(data_Hash, coluns, xk, err = 0.01):
+def test_caso3_4(data_Hash, coluns, xk, err = 0.01):
     [coef_Corr, coef_Corr_Quad, area_Tail, 
-    beta_0, beta_1, yk, rang, upi, lpi] = Calculos(data_Hash, coluns, xk).calcular()
+    beta_0, beta_1, yk, rang, upi, lpi, t] = Calculos(data_Hash, coluns, xk).calcular()
 
 
-def main():
-    input_Data = "Input.csv"
-    data_Hash = carregar_Dados(read_file(input_Data))
+input_Data = "Input.csv"
+data_Hash = read_file(input_Data)
 
-    caso1_col = ["Tamanho estimado do proxy", "Tamanho efetivo de adições e modificações"]
-    caso2_col = ["Tamanho estimado do proxy", "Tempo efetivo de desenvolvimento (em horas)"]
-    caso3_col = ["Tamanho estimado do proxy", "Tamanho efetivo de adições e modificações"]
-    caso4_col = ["Tempo efetivo de desenvolvimento (em horas)", "Tamanho efetivo de adições e modificações"]
+caso1_col = ["Tamanho estimado do proxy", "Tamanho efetivo de adições e modificações"]
+caso2_col = ["Tamanho estimado do proxy", "Tempo efetivo de desenvolvimento (em horas)"]
+caso3_col = ["Tamanho estimado do proxy", "Tamanho efetivo de adições e modificações"]
+caso4_col = ["Tempo efetivo de desenvolvimento (em horas)", "Tamanho efetivo de adições e modificações"]
 
-    caso1(data_Hash, caso1_col, 386)
-    caso2(data_Hash, caso2_col, 386)
-    caso3_4(data_Hash, caso3_col, 386)
-    caso3_4(data_Hash, caso4_col, 386)
-
-main()
+test_caso1(data_Hash, caso1_col, 386)
+test_caso2(data_Hash, caso2_col, 386)
+test_caso3_4(data_Hash, caso3_col, 386)
+test_caso3_4(data_Hash, caso4_col, 386)

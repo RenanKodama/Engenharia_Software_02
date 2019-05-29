@@ -385,7 +385,7 @@ class Calculos:
         for key in self.data_Hash.keys():
             count_itens.append(self.data_Hash[key].count())
 
-        if len(self.coluns != 2):
+        if len(self.coluns) != 2:
             raise ValueError("Duas colunas devem ser selecionadas!")
 
         if not all(

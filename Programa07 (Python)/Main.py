@@ -26,8 +26,8 @@ def ler_Arquivo(nomeArquivo):
 
 
 def main():
-    file_name = str(input("Enter the file name:\n \>"))
-    col_input = str(input("Select coluns [Ex: coluns_name1, coluna_name2, .., ...]:\n \>"))
+    file_name = str(input("Enter the file name:\n />"))
+    col_input = str(input("Select coluns [Ex: coluns_name1, coluna_name2, .., ...]:\n />"))
     col=[]
 
     #  Colunas pré configuradas
