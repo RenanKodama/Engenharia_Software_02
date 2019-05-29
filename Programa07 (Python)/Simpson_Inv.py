@@ -23,21 +23,23 @@ class SimpsonInv:
         self.num_seg *= 2
         new_val = self.func_Simpson()
 
-        while(abs(old_val - new_val) > 0.00001):
+        while(abs(old_val - new_val) > self.eRR):
             self.num_seg *= 2
             old_val = new_val
             new_val = self.func_Simpson()
         return new_val
 
-    def func_Gamma(self, value):
-        return math.gamma(float(value))
-        # if not float(value).is_integer():
-        #     if math.isclose(value, (1 / 2)):
-        #         return ((math.pi ** 0.5))
-        #     else:
-        #         return((value - 1) * self.func_Gamma((value - 1)))
-        # else:
-        #     return self.func_GammaInt(value - 1)
+    def func_Gamma(self, value, perform=True):
+        if(perform):
+            return math.gamma(float(value))
+        else:
+            if not float(value).is_integer():
+                if math.isclose(value, (1 / 2)):
+                    return ((math.pi ** 0.5))
+                else:
+                    return((value - 1) * self.func_Gamma((value - 1)))
+            else:
+                return self.func_GammaInt(value - 1)
 
     def func_GammaInt(self, value):
         if value == 1:
@@ -63,13 +65,7 @@ class SimpsonInv:
         var_P_part2 = 0.0
         var_P_part3 = 0.0
         var_P_part4 = self.func_fX(self.x)
-
-        # for i in range(1, self.num_seg - 1, 2):
-        #     var_P_part2 += (4.0 * self.func_fX(i * var_W))
         var_P_part2 += sum(4.0 * self.func_fX(var_W * i) for i in range(1, self.num_seg - 1, 2))
-
-        # for i in range(2, self.num_seg - 2, 2):
-        #     var_P_part3 += (2.0 * self.func_fX(i * var_W))
         var_P_part3 += sum(2.0 * self.func_fX(var_W * i) for i in range(2, self.num_seg - 2, 2))
 
         var_P_result = (
@@ -84,7 +80,7 @@ class SimpsonInv:
         result = self.calc()
         positive = self.is_Positive(self.p - result)
 
-        while(not math.isclose(self.p, result, rel_tol=self.eRR)):
+        while(abs(self.p - result) > self.eRR):
             if result < self.p:
                 self.x += self.d
             else:
