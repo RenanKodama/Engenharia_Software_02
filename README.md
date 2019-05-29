@@ -1,4 +1,4 @@
-# Universidade Federal do Paraná
+# Universidade Tecnológica Federal do Paraná
 ### Engenharia de Software 02
 
 ### Descrição
